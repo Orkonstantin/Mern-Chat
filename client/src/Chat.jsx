@@ -116,6 +116,8 @@ export default function Chat() {
     },[selectedUserId]);
 
     const onlinePeopleExclOurUser = {...onlinePeople};
+    delete onlinePeopleExclOurUser[undefined];
+    // console.log(onlinePeopleExclOurUser)
     delete onlinePeopleExclOurUser[id];
 
     const messagesWithoutDupes = uniqBy(messages,'_id');
