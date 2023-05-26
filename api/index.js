@@ -22,16 +22,12 @@ const jwtSecret = process.env.JWT_SECRET;
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 const app = express();
-app.use('/uploads',express.static(__dirname + '/uploads'));
+app.use('/api/uploads',express.static(__dirname + '/uploads'));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({
-//     credentials:true,
-//     origin: process.env.CLIENT_URL,
-// }));
 app.use(cors({
     credentials:true,
-    origin: "https://mernchat-app.vercel.app",
+    origin: process.env.CLIENT_URL,
 }));
 
 async function getUserDataFromRequest(req) {
@@ -121,7 +117,7 @@ app.post('/api/register', async (req,res)=>{
 });
 
 const server = app.listen(4040, () => {
-    console.log('Server is running on '+ process.env.SERVER_URL);
+    console.log('Server is running on http://localhost:4040');
 });
 
 const wss = new ws.WebSocketServer({server});
