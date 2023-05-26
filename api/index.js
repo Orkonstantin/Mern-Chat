@@ -25,10 +25,20 @@ const app = express();
 app.use('/api/uploads',express.static(__dirname + '/uploads'));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    credentials:true,
-    origin: process.env.CLIENT_URL,
-}));
+
+// app.use(cors({
+//     credentials:true,
+//     origin: process.env.CLIENT_URL,
+// }));
+
+// Enable CORS for all routes
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 async function getUserDataFromRequest(req) {
     return new Promise((resolve, reject) => {
