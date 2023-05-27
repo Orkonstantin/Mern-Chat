@@ -167,6 +167,7 @@ wss.on('connection',(connection,req) => {
     }
 
     connection.on('message',async (message) => {
+        console.log("connection on message");
         const messageData = JSON.parse(message.toString());
         const {recipient,text,file} = messageData;
         let filename = null
