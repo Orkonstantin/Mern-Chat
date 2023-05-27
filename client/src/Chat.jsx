@@ -20,13 +20,15 @@ export default function Chat() {
     },[selectedUserId]);
     function connectToWs() {
         const ws = new WebSocket('ws://localhost:4040/api');
+        console.log("Connect to ws");
         setWs(ws);
         ws.addEventListener('message',handleMessage);
         ws.addEventListener('close',()=>{
-            setTimeout(()=>{
-                console.log('Disconnected. Trying to reconnect.');
-                connectToWs();
-            },1000);
+            setTimeout(() => {
+                    console.log('Disconnected. Trying to reconnect.');
+                    connectToWs();
+                },
+                1000);
         });
     }
     function showOnlinePeople(peopleArray){
@@ -38,7 +40,7 @@ export default function Chat() {
     }
     function handleMessage(ev){
         const messageData = JSON.parse(ev.data);
-        console.log({ev, messageData});
+        // console.log({ev, messageData});
         if ('online' in messageData){
             showOnlinePeople(messageData.online);
         } else if('text' in messageData){
@@ -55,6 +57,7 @@ export default function Chat() {
         });
     }
     function sendMessage(ev,file = null){
+        console.log("Send Message");
         if (ev) ev.preventDefault();
         ws.send(JSON.stringify({
             recipient: selectedUserId,
@@ -108,6 +111,7 @@ export default function Chat() {
     },[onlinePeople]);
 
     useEffect(()=>{
+        console.log("useEffect of messages");
         if (selectedUserId){
             axios.get('/messages/'+selectedUserId).then(res =>{
                setMessages(res.data);
